@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+{% import 'macros.html' as macro%}
+
+<!--Styles block-->
+{% block styles%}
+    {{super() }}<!--Tells jinja not to override any code that is defined in the block-->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+{% endblock%}
+<!--Content block-->
+{% block content%}
+    
+    {%  for source in sources %}
+        <div class="container col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4" > 
+            <div class="card" >
+                <div class="card-body">
+                    <a class="card-title" href="/articles/{{ source.id  }}"><h3 >{{ source.name }}</h3></a>
+                    <hr>
+                    <p class="card-text"><strong> Description:</strong><br>{{source.description|truncate(300)}}</p>
+                    <h5 class="card-text"><strong>category: {{ source.category}}</strong></h5>
+                </div>
+            </div>
+        </div>
+
+    {%  endfor %}
+{% endblock%}
