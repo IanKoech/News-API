@@ -11,16 +11,9 @@ def index():
     '''
      #get sources
     general = get_source('general')
-    technology = get_source('technology')
-    business = get_source('business')
-    entertainment = get_source('entertainment')
-    sports = get_source('sports')
-
-    title = 'Home - Welcome to the most informative news site online!!!'
-
-    # search_source = request.args.get('search_query')
-
-    return render_template('index.html', title = title, general = general, technology = technology, business = business, entertainment = entertainment, sports = sports)
+    title='News Today'
+    
+    return render_template('index.html', title = title, general = general)
 
 
 

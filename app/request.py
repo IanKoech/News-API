@@ -1,17 +1,81 @@
 import urllib.request , json
-from .models import Article 
+from .models import Source,Article 
 
 # Getting api key
 api_key = None
+
+# Getting source url
+source_url = None
 
 # Getting article url
 article_url = None
 
 def configure_request(app):
+    global api_key, source_url, article_url
     api_key = app.config['NEWS_API_KEY']
+    source_url = app.config['NEWS_API_BASE_URL']
     article_url = app.config['NEWS_API_BASE_URL']
 
+def get_source(source):
+    '''
+    Function to get json to respond to url request
+    '''
 
+    the_url = source_url.format(source,api_key)
+    # print(the_url)
+
+    with urllib.request.urlopen(the_url) as url:
+        get_source_data = url.read()
+        get_source_response = json.loads(get_source_data)
+
+        source_results = None
+
+        if get_source_response['sources']:
+            source_results_list = get_source_response['sources']
+            source_results = process_results(source_results_list)
+            # print(source_results)
+
+    return source_results  
+
+def process_results(source_results_list):
+    '''
+    This function processes the source results and transfers them to a list of objects
+    
+    Args:
+        source_list: list of dictionaties that contain news_source details
+    Returns:
+        source_results: list of source objects
+    '''
+    source_results = []
+    for source_item in source_results_list:
+        id = source_item.get('id')
+        name = source_item.get('name')
+        description = source_item.get('description')
+        url = source_item.get('url')
+        category = source_item.get('category')
+        language = source_item.get('language')
+        country = source_item.get('country')
+
+        new_stuff = Source(id, name, description, url, category, language, country)
+        source_results.append(new_stuff)
+        print(source_results)
+
+    return source_results        
+
+def search_source(source_name):
+
+    search_source_url = 'https://newsapi.org/v2/sources?category={}&apiKey={}'.format(api_key, source_name)
+    with urllib.request.urlopen(search_source_url) as url:
+        search_source_data = url.read()
+        search_source_response = json.loads(search_source_data)
+
+        search_source_results = None
+
+        if search_source_response['sources']:
+            search_source_list = search_source_response['sources']
+            search_source_results = process_results (search_source_list)
+
+    return search_source_results
 
 def get_article(id):
     '''
