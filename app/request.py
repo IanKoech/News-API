@@ -89,8 +89,8 @@ def get_article(id):
 
         article_results = None
 
-        if get_article_response['articles']:
-            article_results_list = get_article_response['articles']
+        if get_article_response['sources']:
+            article_results_list = get_article_response['sources']
             article_results = process_articles(article_results_list)
 
     return article_results        
