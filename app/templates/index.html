@@ -1,25 +1,48 @@
-{% extends 'base.html'%}
-{% import 'macros.html' as macro%}
+{% extends 'base.html' %}
+{% import 'macros.html' as macro %}
 
-<!--Styles block-->
+<!-- Styles block -->
+
 {% block styles%}
-    {{super() }}<!--Tells jinja not to override any code that is defined in the block-->
+    {{ super() }}
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
-{% endblock%}
-<!--Content block-->
-{% block content%}
-    
-    {%  for source in sources %}
-        <div class="container col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4" > 
-            <div class="card" >
-                <div class="card-body">
-                    <a class="card-title" href="/articles/{{ source.id  }}"><h3 >{{ source.name }}</h3></a>
-                    <hr>
-                    <p class="card-text"><strong> Description:</strong><br>{{source.description|truncate(300)}}</p>
-                    <h5 class="card-text"><strong>category: {{ source.category}}</strong></h5>
-                </div>
-            </div>
-        </div>
+    <link href="https://fonts.googleapis.com/css?family=Rancho" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-qVp3sGZJcZdk20BIG6O0Sb0sYRyedif3+Z8bZtQueBW/g7Dp67a0XdiMmmWCCm82" crossorigin="anonymous">{% endblock %}
 
-    {%  endfor %}
-{% endblock%}
+        <meta charset="utf-8">
+        {% if title %}
+        <title> {{ title }} </title>
+        {% else %}
+        <title> Welcome to an informative news site!!! </title>
+        {% endif %}
+    
+    {% block content %}
+
+ <div class="container-fluid">
+    <form>
+        <input type="text" name="source_query" placeholder="Search for a News Source ..." class="form-control">
+        <input type="submit"  value="Submit" class="btn btn-primary">
+    </form>
+            
+            
+     <!-- news sources section -->
+    <div>
+    <h2> News Sources </h2>
+
+    <h3>General News</h3>
+        <ul> {{ macro.displaySourceList(general) }} </ul>
+   
+    <h3>Technology News</h3>
+        <ul> {{ macro.displaySourceList(technology) }} </ul>
+    
+    <h3>Business News</h3>
+        <ul> {{ macro.displaySourceList(business) }} </ul>
+    
+    <h3>Entertainment News</h3>
+        <ul> {{ macro.displaySourceList(entertainment) }} </ul>
+    
+    <h3>Sports News</h3>
+        <ul> {{ macro.displaySourceList(sports) }} </ul>
+    </div>
+
+{% endblock %}    
