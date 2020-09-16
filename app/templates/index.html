@@ -8,7 +8,12 @@
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-qVp3sGZJcZdk20BIG6O0Sb0sYRyedif3+Z8bZtQueBW/g7Dp67a0XdiMmmWCCm82" crossorigin="anonymous">{% endblock %}
-
+    <style>
+        .div{
+            background-color: rgb(17, 24, 24);
+            color:seashell;
+        }
+    </style>
         <meta charset="utf-8">
         {% if title %}
         <title> {{ title }} </title>
@@ -27,8 +32,8 @@
        
      <!-- news sources section -->
  </div>
-    <div style="font-size: large; background-color: 02020A;">
-        <ul>{{ macro.displaySourceList(general)}}</ul>
+    <div class="div" style="text-align: center;font-size: large;">
+        <ul style="background-color: rgb(17, 24, 24);">{{ macro.displaySourceList(general)}}</ul>
     </div>
         
    
