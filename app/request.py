@@ -4,14 +4,10 @@ from .models import Article
 # Getting api key
 api_key = None
 
-# Getting source url
-source_url = None
-
 # Getting article url
 article_url = None
 
 def configure_request(app):
-    global api_key, source_url, article_url
     api_key = app.config['NEWS_API_KEY']
     article_url = app.config['NEWS_API_BASE_URL']
 

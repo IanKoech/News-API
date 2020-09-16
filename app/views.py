@@ -1,7 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from app import app
 from .request import get_article
-# from .request import get_article, search_article
 
 
 # Views
@@ -12,11 +11,11 @@ def index():
     View root page function that returns the index page and its data
     '''
      #get sources
-    general = get_source('general')
-    technology = get_source('technology')
-    business = get_source('business')
-    entertainment = get_source('entertainment')
-    sports = get_source('sports')
+    general = get_article('general')
+    technology = get_article('technology')
+    business = get_article('business')
+    entertainment = get_article('entertainment')
+    sports = get_article('sports')
 
     title = 'Home - Welcome to the most informative news site online!!!'
 
