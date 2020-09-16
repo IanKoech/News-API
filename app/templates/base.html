@@ -21,11 +21,18 @@
         <title>{{ title }}</title>
         {% else %}
         <title> News Today </title>
-        {% endif %} 
+        {% endif %}
+        <style>body{
+            background-color: 02020A;
+            font-weight: 200;
+            color: cornsilk;
+            font-style: oblique;}
+        </style>
     </head>
     <body>
         <!-- Content Block -->
         {%  block content %}
         {%  endblock %}
     </body>
+
 </html>
