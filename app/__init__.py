@@ -20,7 +20,7 @@ def create_app(config_name):
 
 
     # setting config
-    from .request import configure_request
+    from .requests import configure_request
     configure_request(app)
 
     return app

@@ -1,66 +1,122 @@
-import urllib.request,json
-from .models import Articles
-#Getting the api key
-api_key=None
-#Getting movie base url
-base_url=None
+import urllib.request , json
+from .models import Articles 
+
+# Getting api key
+api_key = None
+
+# Getting source url
+source_url = None
+
+# Getting article url
+article_url = None
+
 def configure_request(app):
-    global api_key,base_url
+    global api_key, source_url, article_url
     api_key = app.config['NEWS_API_KEY']
-    base_url = app.config['NEWS_API_BASE_URL']
-#Import the app instance and from it form api key from config object
+    source_url = app.config['NEWS_API_BASE_URL']
+   
 
-#urllib.request module helps create a connection to our API URl and send requests and json modules format
-
-def get_news(category):
-    """
-    Function that gets json response to our url request
-    """
-    get_news_url=base_url.format(category,api_key)
-
-    with urllib.request.urlopen(get_news_url) as url:
-        get_news_data=url.read()
-        get_news_response=json.loads(get_news_data)
-        news_results=None
-
-        if get_news_response['results']:
-            news_results_list=get_news_response['results']
-            news_results=process_results(news_results_list)
-
-    return news_results
-
-def process_results(news_list):
+def get_source(source):
     '''
-    Function  that processes the movie result and transform them to a list of Objects
+    Function to get json to respond to url request
+    '''
+
+    the_url = source_url.format(source,api_key)
+    # print(the_url)
+
+    with urllib.request.urlopen(the_url) as url:
+        get_source_data = url.read()
+        get_source_response = json.loads(get_source_data)
+
+        source_results = None
+
+        if get_source_response['sources']:
+            source_results_list = get_source_response['sources']
+            source_results = process_results(source_results_list)
+            # print(source_results)
+
+    return source_results  
+
+def process_results(source_results_list):
+    '''
+    This function processes the source results and transfers them to a list of objects
+    
     Args:
-        movie_list: A list of dictionaries that contain movie details
-    Returns :
-        movie_results: A list of movie objects
+        source_list: list of dictionaties that contain news_source details
+    Returns:
+        source_results: list of source objects
     '''
-    news_results = []
-    for news_item in news_list:
-        author = news_item.get('author')
-        publishedAt = news_item.get('publishedAt')
-        title = news_item.get('title')
-        urlToImage = news_item.get('urlToImage')
-        description = news_item.get('description')
-        url = news_item.get('url')
+    source_results = []
+    for source_item in source_results_list:
+        id = source_item.get('id')
+        name = source_item.get('name')
+        description = source_item.get('description')
+        url = source_item.get('url')
+        category = source_item.get('category')
+        language = source_item.get('language')
+        country = source_item.get('country')
 
-        news_object = Articles(author,publishedAt,title,urlToImage,description,url)
-        article_results.append(article_object)
-    return news_results
+        new_stuff = Source(id, name, description, url, category, language, country)
+        source_results.append(new_stuff)
+        print(source_results)
 
-def get_articles(id):
-    get_article_details_url = base_url.format(id,api_key)
+    return source_results        
 
-    with urllib.request.urlopen(get_article_details_url) as url:
-        article_details_data = url.read()
-        article_details_response = json.loads(article_details_data)
+def search_source(source_name):
 
-        article_object = None
-        if article_details_response['articles']:
-            articles_results_list = article_details_response['articles']
-            articles_results = process_results(articles_results_list)
+    search_source_url = 'https://newsapi.org/v2/sources?category={}&apiKey={}'.format(api_key, source_name)
+    with urllib.request.urlopen(search_source_url) as url:
+        search_source_data = url.read()
+        search_source_response = json.loads(search_source_data)
 
-    return articles_results
+        search_source_results = None
 
+        if search_source_response['sources']:
+            search_source_list = search_source_response['sources']
+            search_source_results = process_results (search_source_list)
+
+    return search_source_results
+
+def get_article(id):
+    '''
+    Function to get json to respond to url request
+    '''
+    get_article_url=article_url.format(id,api_key)
+
+    with urllib.request.urlopen(get_article_url) as url:
+        get_article_data = url.read()
+        get_article_response = json.loads(get_article_data)
+
+        article_results = None
+
+        if get_article_response['articles']:
+            article_results_list = get_article_response['articles']
+            article_results = process_articles(article_results_list)
+
+    return article_results        
+
+def process_articles(article_results_list):
+    '''
+    This function processes the articles results and transfers them to a list of objects
+    
+    Args:
+        article_list: dictionaties that contain article details
+    Returns:
+        article_results: article objects
+    '''
+    article_results = []
+    for article_item in article_results_list:
+        id = article_item.get('id')
+        name = article_item.get('name')
+        author = article_item.get('author')
+        title = article_item.get('title')
+        description = article_item.get('description')
+        url = article_item.get('url')
+        urlToImage = article_item.get('urlToImage')
+        publishedAt = article_item.get('publishedAt')
+
+        if urlToImage:
+            article_object = Article(id, name, author, title, description, url, urlToImage, publishedAt)
+            article_results.append(article_object)
+
+    return article_results  
