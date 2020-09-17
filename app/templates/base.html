@@ -1,13 +1,6 @@
 {% extends 'bootstrap/base.html'%}
 {% block styles%}
     {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}" type="text/css">
-    <style>
-        body{
-            background-color: blanchedalmond;
-            color: black;
-        }
-    </style>
 {% endblock %}
 
 <!-- Navbar block  --> 
@@ -26,13 +19,7 @@
         {% else %}
         <title> News Today </title>
         {% endif %}
-        <style>body{
-            background-color: 02020A;
-            font-weight: 200;
-            color: black;
-            font-size: small;
-        }
-        </style>
+        
     </head>
     <body style="background-color: blanchedalmond; color: black;">
         {% block navbar %}

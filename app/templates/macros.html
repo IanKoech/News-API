@@ -2,7 +2,7 @@
     {% for item in sources %}
 
 
-    <div class="card mb-10 col-md-3" style="margin-bottom: 10px">
+    <div class="card mb-10 col-md-3" style="margin-bottom: 10px;background-color: blanchedalmond;color: black;">
         <a class="list-group-item list-group-item-action active" href="/source/{{item.id}}">
             <li style="list-style: none">{{item.name}}</li>
 
@@ -10,7 +10,7 @@
         <p style="font-size: large; color: blanchedalmond; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{ item.description }} </p>
         <a href="{{item.url}}">Read more ...</a>
 
-</div> 
+    </div> 
     {% endfor %}
 {% endmacro %}
 
